@@ -16,13 +16,13 @@ const EnrichedData = ({ data }) => {
       {/* Full-width Card for Main Company */}
       <div className="w-full p-6 backdrop-blur-sm shadow-lg rounded-lg ">
         <h2 className="pt-4 text-2xl font-serif mb-4 text-center text-indigo-800">
-        {data?.logo && (
-          <img
-            src={`data:image/png;base64,${data.logo}`}
-            alt="Company Logo"
-            className="inline-block h-12 w-12 mr-2" // 
-          />
-        )}{data?.name}
+          {data?.logo && (
+            <img
+              src={`data:image/png;base64,${data.logo}`}
+              alt="Company Logo"
+              className="inline-block h-12 w-12 mr-2" // 
+            />
+          )}{data?.name}
         </h2>
 
         <div className="space-y-4">
@@ -56,7 +56,7 @@ const EnrichedData = ({ data }) => {
         </div>
 
         <div className="mt-6 text-center space-x-4 flex items-center justify-between">
-        
+
           <a
             href={data?.website}
             target="_blank"
@@ -73,7 +73,7 @@ const EnrichedData = ({ data }) => {
               className="inline-flex items-center text-blue-600 hover:text-blue-700 font-semibold"
             >
               LinkedIn Profile <FaLinkedin className="ml-1" />
-             
+
             </a>
           )}
           <FirestoreTest />
@@ -86,14 +86,34 @@ const EnrichedData = ({ data }) => {
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
           {data?.lookalike_companies?.length > 0
             ? data.lookalike_companies.map((company, index) => (
-              <div key={index} className="p-4 bg-slate-50 shadow rounded-lg">
-                <h4 className="text-lg font-semibold text-indigo-600 underline">
-        {company.name}</h4>
+              <div key={index} className="p-4 bg-slate-50 shadow rounded-lg flex flex-col gap-2">
+                <div className="flex items-center gap-2">
+
+                  {company?.logo && (
+                    <img
+                      src={`data:image/png;base64,${company.logo}`}
+                      alt="Company Logo"
+                      className="inline-block h-10 w-10 mr-2 rounded-full border object-cover" // 
+                    />
+                  )}
+
+                  <a
+                    href={company.website}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-blue-600 hover:text-blue-700 font-medium inline-flex items-center"
+                  >
+
+                    <h4 className="text-lg font-semibold text-indigo-600 underline">{company.name}</h4>
+                  </a>
+                </div>
+
                 <article className="text-gray-600 text-sm mb-4 mt-2"> {company?.description
-    ? company.description.length > 100
-      ? `${company.description.slice(0, 100)}...`
-      : company.description
-    : 'No description available'}</article>
+                  ? company.description.length > 100
+                    ? `${company.description.slice(0, 100)}...`
+                    : company.description
+                  : 'No description available'}
+                </article>
 
                 <p className="text-sm text-gray-600 flex items-center">
                   <FaIndustry className="mr-1" /> Industry: {company.industry || 'N/A'}
@@ -111,7 +131,7 @@ const EnrichedData = ({ data }) => {
                   <FaInfoCircle className="mr-1" /> Lookalike Score: {company.lookalike_score.toFixed(2)}%
                 </p>
 
-                <div className="mt-4">
+                <div className="">
                   <h3 className="font-semibold text-gray-700 flex items-center">
                     <FaToolbox className="mr-2" /> Technologies
                   </h3>
@@ -121,7 +141,7 @@ const EnrichedData = ({ data }) => {
                       : <li>No technologies listed</li>}
                   </ul>
                 </div>
-                <div className="mt-4 text-center space-x-2 flex items-center justify-between w-full">
+                <div className="text-center space-x-2 flex items-center justify-end w-full mt-auto">
                   {company.linkedin_url && (
                     <a
                       href={company.linkedin_url}
@@ -132,14 +152,14 @@ const EnrichedData = ({ data }) => {
                       LinkedIn <FaLinkedin className="ml-1" />
                     </a>
                   )}
-                  <a
+                  {/* <a
                     href={company.website}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="text-blue-600 hover:text-blue-700 font-medium inline-flex items-center"
                   >
                     Website <FaExternalLinkAlt className="ml-1" size={12} />
-                  </a>
+                  </a> */}
                 </div>
               </div>
             ))

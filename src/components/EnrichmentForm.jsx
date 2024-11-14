@@ -2,7 +2,7 @@ import { ChevronRight, Loader } from "lucide-react";
 import { useState } from "react";
 import { toast } from "react-toastify";
 import { db } from "../firebase";
-import { doc, setDoc, collection, addDoc } from "firebase/firestore";
+import { doc, collection, addDoc } from "firebase/firestore";
 import { useUser } from "../contexts/userContext";
 
 const EnrichmentForm = ({ setResult }) => {
@@ -72,13 +72,11 @@ const EnrichmentForm = ({ setResult }) => {
       if (cachedData) {
         toast.success("FOUND (Cached)");
         setResult(cachedData);
-        await saveEnrichedData(cachedData);
         return;
       }
 
       const res = await fetch(
-        `https://lept-enrichment-tool.vercel.app/api/enrich?website=${
-          form.website || form.name
+        `https://server-three-nu-90.vercel.app/api/enrich?website=${form.website || form.name
         }`
       );
 
