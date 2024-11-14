@@ -1,9 +1,9 @@
 import { ChevronRight, Loader } from "lucide-react";
 import { useState } from "react";
 import { toast } from "react-toastify";
-import { db } from '../firebase';
-import { doc, setDoc, collection, addDoc } from 'firebase/firestore';
-import { useUser } from '../contexts/userContext'; 
+import { db } from "../firebase";
+import { doc, setDoc, collection, addDoc } from "firebase/firestore";
+import { useUser } from "../contexts/userContext";
 
 const EnrichmentForm = ({ setResult }) => {
   //------------------------------------------------
@@ -13,7 +13,6 @@ const EnrichmentForm = ({ setResult }) => {
     name: "",
     url: "",
   });
-
 
   const cacheData = (key, data) => {
     try {
@@ -40,9 +39,9 @@ const EnrichmentForm = ({ setResult }) => {
     }
     try {
       // Create a reference to the user's saved leads subcollection
-      const userRef = doc(db, 'users', user.uid);
-      const leadsRef = collection(userRef, 'savedLeads');
-      
+      const userRef = doc(db, "users", user.uid);
+      const leadsRef = collection(userRef, "savedLeads");
+
       // Add enriched data to Firestore under the user's savedLeads subcollection
       await addDoc(leadsRef, {
         ...enrichedData,
@@ -71,14 +70,16 @@ const EnrichmentForm = ({ setResult }) => {
       const cachedData = getCachedData(cacheKey);
 
       if (cachedData) {
-        toast.success('FOUND (Cached)')
+        toast.success("FOUND (Cached)");
         setResult(cachedData);
         await saveEnrichedData(cachedData);
         return;
       }
 
       const res = await fetch(
-        `http://localhost:8000/api/enrich?website=${form.website || form.name}`,
+        `https://lept-enrichment-tool.vercel.app/api/enrich?website=${
+          form.website || form.name
+        }`
       );
 
       const data = await res.json();
@@ -91,7 +92,7 @@ const EnrichmentForm = ({ setResult }) => {
         cacheData(cacheKey, data.data);
         await saveEnrichedData(data.data);
       }
-      
+
       console.log(data);
     } catch (error) {
       toast.error(error.message);
